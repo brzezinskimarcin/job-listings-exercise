@@ -24,6 +24,7 @@ fetchData();
     <template v-else>
       <!-- <pre v-else>{{ allJobs }}</pre> -->
       <SummaryCard
+        :accent="true"
         thumbnail-url="./images/photosnap.svg"
         caption="Photosnap"
         :badges="[

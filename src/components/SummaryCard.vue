@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineProps<{
+  accent: boolean;
   thumbnailUrl: string;
   caption: string;
   badges: {
@@ -13,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-  <v-card elevation="3" class="mt-16 mt-sm-0 py-6 px-5 overflow-visible">
+  <v-card elevation="3" :class="['px-5 mt-16 mt-sm-0 py-6 overflow-visible', { accent }]">
     <div class="mt-n16 mt-sm-0 d-sm-flex align-center">
       <v-avatar class="ma-2" size="x-large">
         <v-img :src="thumbnailUrl" />
@@ -55,3 +56,10 @@ defineProps<{
     </div>
   </v-card>
 </template>
+
+<style scoped>
+.accent {
+  border-left: 4px solid rgb(var(--v-theme-primary));
+  padding-left: 16px !important;
+}
+</style>
