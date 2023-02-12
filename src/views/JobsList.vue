@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useJobsStore } from '@/stores/jobs';
 import SummaryCard from '@/components/SummaryCard.vue';
+import SearchBox from '@/components/SearchBox.vue';
 
 const jobsStore = useJobsStore();
 const { loading, allJobs } = storeToRefs(jobsStore);
@@ -11,6 +12,14 @@ fetchData();
 </script>
 
 <template>
+  <header>
+    <v-img :min-height="120" cover src="/bg-header.svg" class="bg-primary w-100" />
+    <SearchBox
+      class="mx-8 mt-n10"
+      :tags="['Frontend', 'Senior']"
+    />
+  </header>
+
   <main class="px-8 pt-0 pt-sm-16">
     <div v-if="loading" class="text-center">
       <v-progress-circular
