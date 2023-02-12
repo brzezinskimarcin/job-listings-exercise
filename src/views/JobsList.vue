@@ -10,6 +10,16 @@ fetchData();
 </script>
 
 <template>
-  <pre>{{ loading }}</pre>
-  <pre>{{ allJobs }}</pre>
+  <main>
+    <div v-if="loading" class="text-center">
+      <v-progress-circular
+        :size="64"
+        :width="4"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+      <div class="mt-4 text-h6">Loading jobs...</div>
+    </div>
+    <pre v-else>{{ allJobs }}</pre>
+  </main>
 </template>
