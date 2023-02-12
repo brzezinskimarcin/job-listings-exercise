@@ -14,8 +14,8 @@ defineProps<{
 </script>
 
 <template>
-  <v-card elevation="3" :class="['px-5 mt-16 mt-sm-0 py-6 overflow-visible', { accent }]">
-    <div class="mt-n16 mt-sm-0 d-sm-flex align-center">
+  <v-card elevation="3" :class="['px-5 mt-16 mt-sm-0 py-4 overflow-visible', { accent }]">
+    <div class="mt-n13 mt-sm-0 d-sm-flex align-center">
       <v-avatar class="ma-2" size="x-large">
         <v-img :src="thumbnailUrl" />
       </v-avatar>
@@ -42,6 +42,7 @@ defineProps<{
           {{ subtitles.join(' · ') }}
         </div>
       </div>
+      <v-divider class="my-1 mx-3 d-sm-none" />
       <div class="pa-1">
         <v-chip
           v-for="tag in tags"
