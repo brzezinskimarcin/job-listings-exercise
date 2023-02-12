@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <div>Hello world</div>
+  <v-chip color="primary" label closable>Hello world</v-chip>
 </template>
