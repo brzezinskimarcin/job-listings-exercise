@@ -1,0 +1,57 @@
+<script setup lang="ts">
+defineProps<{
+  thumbnailUrl: string;
+  caption: string;
+  badges: {
+    color: string;
+    label: string;
+  }[];
+  title: string;
+  subtitles: string[];
+  tags: string[];
+}>();
+</script>
+
+<template>
+  <v-card elevation="3" class="mt-16 mt-sm-0 py-6 px-5 overflow-visible">
+    <div class="mt-n16 mt-sm-0 d-sm-flex align-center">
+      <v-avatar class="ma-2" size="x-large">
+        <v-img :src="thumbnailUrl" />
+      </v-avatar>
+      <div class="flex-grow-1 pa-3">
+        <div class="d-flex align-center">
+          <div class="font-weight-bold text-caption text-primary mr-1">
+            {{ caption }}
+          </div>
+          <v-chip
+            v-for="{ color, label } in badges"
+            :key="label"
+            :color="color"
+            size="x-small"
+            variant="flat"
+            class="font-weight-bold mx-1"
+          >
+            {{ label }}
+          </v-chip>
+        </div>
+        <div class="font-weight-bold text-h6 ">
+          {{ title }}
+        </div>
+        <div class="text-medium-emphasis text-caption">
+          {{ subtitles.join(' · ') }}
+        </div>
+      </div>
+      <div class="pa-1">
+        <v-chip
+          v-for="tag in tags"
+          :key="tag"
+          color="primary"
+          label
+          class="font-weight-bold ma-2"
+        >
+          {{ tag }}
+        </v-chip>
+      </div>
+    </div>
+  </v-card>
+</template>
