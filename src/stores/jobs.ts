@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { JobListingsResponse } from '@/types/api';
 import jobsResponse from '@/mock/data.json';
@@ -25,6 +25,10 @@ interface JobListingSummary {
 export const useJobsStore = defineStore('jobs', () => {
   const loading = ref(false);
   const allJobs = ref<JobListingSummary[]>([]);
+  const filters = ref<string[]>([]);
+  const jobs = computed(() =>
+    allJobs.value.filter(({ tags }) => filters.value.every((filter) => tags.includes(filter)))
+  );
 
   async function fetchData () {
     loading.value = true;
@@ -41,5 +45,20 @@ export const useJobsStore = defineStore('jobs', () => {
     loading.value = false;
   }
 
-  return { loading, allJobs, fetchData };
+  function addTag (tag: string) {
+    if (!filters.value.includes(tag)) {
+      filters.value.push(tag);
+    }
+  }
+  
+  function removeTag (tag: string) {
+    const tagIndex = filters.value.indexOf(tag);
+    filters.value.splice(tagIndex, 1);
+  }
+
+  function removeAll () {
+    filters.value = [];
+  }
+
+  return { loading, jobs, filters, fetchData, addTag, removeTag, removeAll };
 });

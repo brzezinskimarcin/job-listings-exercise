@@ -11,6 +11,10 @@ defineProps<{
   subtitles: string[];
   tags: string[];
 }>();
+
+const emit = defineEmits<{
+  (event: 'click:tag', tag: string): void;
+}>();
 </script>
 
 <template>
@@ -50,6 +54,7 @@ defineProps<{
           color="primary"
           label
           class="font-weight-bold ma-2"
+          @click="emit('click:tag', tag)"
         >
           {{ tag }}
         </v-chip>

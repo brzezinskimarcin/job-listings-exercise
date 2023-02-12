@@ -5,8 +5,8 @@ import SummaryCard from '@/components/SummaryCard.vue';
 import SearchBox from '@/components/SearchBox.vue';
 
 const jobsStore = useJobsStore();
-const { loading, allJobs } = storeToRefs(jobsStore);
-const { fetchData } = jobsStore;
+const { loading, jobs, filters } = storeToRefs(jobsStore);
+const { fetchData, addTag, removeTag, removeAll } = jobsStore;
 
 fetchData();
 </script>
@@ -15,8 +15,10 @@ fetchData();
   <header>
     <v-img :min-height="120" cover src="/bg-header.svg" class="bg-primary w-100" />
     <SearchBox
+      :tags="filters"
       class="mx-8 mt-n10"
-      :tags="['Frontend', 'Senior']"
+      @close="removeTag"
+      @clear="removeAll"
     />
   </header>
 
@@ -31,9 +33,8 @@ fetchData();
       <div class="mt-4 text-h6">Loading jobs...</div>
     </div>
     <template v-else>
-      <!-- <pre v-else>{{ allJobs }}</pre> -->
       <SummaryCard
-        v-for="job in allJobs"
+        v-for="job in jobs"
         :key="job.id"
         :accent="job.new"
         :thumbnail-url="job.logo"
@@ -46,6 +47,7 @@ fetchData();
         :subtitles="job.details"
         :tags="job.tags"
         class="mb-8"
+        @click:tag="addTag"
       />
     </template>
   </main>

@@ -3,6 +3,10 @@ defineProps<{
   tags: string[];
 }>();
 
+const emit = defineEmits<{
+  (event: 'close', tag: string): void;
+  (event: 'clear'): void;
+}>();
 </script>
 
 <template>
@@ -18,10 +22,11 @@ defineProps<{
         class="font-weight-bold ma-2"
         label
         closable
+        @click:close="emit('close', tag)"
       >
         {{ tag }}
       </v-chip>
     </div>
-    <button class="font-weight-bold text-primary px-2">Clear</button>
+    <button class="font-weight-bold text-primary px-2" @click="emit('clear')">Clear</button>
   </v-card>
 </template>
