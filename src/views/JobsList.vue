@@ -24,16 +24,19 @@ fetchData();
     <template v-else>
       <!-- <pre v-else>{{ allJobs }}</pre> -->
       <SummaryCard
-        :accent="true"
-        thumbnail-url="./images/photosnap.svg"
-        caption="Photosnap"
+        v-for="job in allJobs"
+        :key="job.id"
+        :accent="job.new"
+        :thumbnail-url="job.logo"
+        :caption="job.company"
         :badges="[
-          { color: 'primary', label: 'NEW!' },
-          { color: 'secondary', label: 'FEATURED' },
-        ]"
-        title="Senior Frontend Developer"
-        :subtitles="['1d ago', 'Full Time', 'USA Only']"
-        :tags="['Frontend', 'Senior', 'HTML', 'CSS', 'JavaScript']"
+          job.new ? [{ color: 'primary', label: 'NEW!' }] : [],
+          job.featured ? [{ color: 'secondary', label: 'FEATURED' }] : []
+        ].flat()"
+        :title="job.position"
+        :subtitles="job.details"
+        :tags="job.tags"
+        class="mb-8"
       />
     </template>
   </main>
