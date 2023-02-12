@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import JobsList from '@/views/JobsList.vue';
 </script>
 
 <template>
-  <v-chip color="primary" label closable>Hello world</v-chip>
+  <v-app>
+    <JobsList />
+  </v-app>
 </template>
