@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useJobsStore } from '@/stores/jobs';
 import SummaryCard from '@/components/SummaryCard.vue';
-import SearchBox from '@/components/SearchBox.vue';
+import SearchBar from '@/components/SearchBar.vue';
 
 const jobsStore = useJobsStore();
 const { loading, jobs, filters } = storeToRefs(jobsStore);
@@ -14,7 +14,7 @@ fetchData();
 <template>
   <header>
     <v-img :min-height="120" cover src="/bg-header.svg" class="bg-primary w-100" />
-    <SearchBox
+    <SearchBar
       :tags="filters"
       class="mx-8 mt-n10"
       @close="removeTag"
