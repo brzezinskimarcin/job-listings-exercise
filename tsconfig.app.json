@@ -1,9 +1,9 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "src/**/*.json"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "tests/**/*", "tests/**/*.json"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "lib": ["dom", "ESNext"],
+    "lib": ["dom", "dom.iterable", "ESNext"],
     "composite": true,
     "baseUrl": ".",
     "paths": {

@@ -1,38 +1,12 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { JobListingsResponse } from '@/types/api';
-import jobsResponse from '@/mock/data.json';
+import { useFetch } from '@/composables/fetch';
 
-function fetchJobs (): Promise<JobListingsResponse[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(jobsResponse);
-    }, 3000);
-  });
-}
-
-interface JobListingSummary {
-  id: number;
-  company: string;
-  logo: string;
-  new: boolean;
-  featured: boolean;
-  position: string;
-  details: string[];
-  tags: string[];
-}
-
-export const useJobsStore = defineStore('jobs', () => {
-  const loading = ref(false);
-  const allJobs = ref<JobListingSummary[]>([]);
-  const filters = ref<string[]>([]);
-  const jobs = computed(() =>
-    allJobs.value.filter(({ tags }) => filters.value.every((filter) => tags.includes(filter)))
-  );
-
-  async function fetchData () {
-    loading.value = true;
-    allJobs.value = (await fetchJobs()).map((job) => ({
+export const useJobsStore = defineStore('jobsStore', () => {
+  const { execute: fetchData, data: allJobs, loading } = useFetch({
+    url: 'jobs',
+    mapResponse: (jobs: JobListingsResponse[]) => jobs.map((job) => ({
       id: job.id,
       company: job.company,
       logo: job.logo,
@@ -41,9 +15,12 @@ export const useJobsStore = defineStore('jobs', () => {
       position: job.position,
       details: [job.postedAt, job.contract, job.location],
       tags: [job.role, job.level, ...job.languages, ...job.tools]
-    }));
-    loading.value = false;
-  }
+    }))
+  });
+  const filters = ref<string[]>([]);
+  const jobs = computed(() => {
+    return allJobs.value?.filter(({ tags }) => filters.value.every((filter) => tags.includes(filter)))
+  });
 
   function addTag (tag: string) {
     if (!filters.value.includes(tag)) {
@@ -60,5 +37,5 @@ export const useJobsStore = defineStore('jobs', () => {
     filters.value = [];
   }
 
-  return { loading, jobs, filters, fetchData, addTag, removeTag, removeAll };
+  return { allJobs, loading, jobs, filters, fetchData, addTag, removeTag, removeAll };
 });
