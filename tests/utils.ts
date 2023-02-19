@@ -2,13 +2,19 @@ import { vi } from 'vitest';
 import type { StoreDefinition, StateTree, _GettersTree, _ActionsTree } from 'pinia';
 import { setActivePinia, createPinia } from 'pinia';
 import { createTestingPinia } from '@pinia/testing';
-import { type RenderOptions, render as basicRender } from '@testing-library/vue';
+import { type PrettyDOMOptions, getQueriesForElement, prettyDOM } from '@testing-library/dom';
+import { type MountingOptions, mount } from '@vue/test-utils';
 import { vuetify } from '@/vuetify';
+import { mountedWrappers } from './cleanup';
 
+export function render(component: any, options?: MountingOptions<any>, initialState?: StateTree) {
+  const div = document.createElement('div');
+  const baseElement = document.body;
+  const container = baseElement.appendChild(div);
 
-export function render(component: any, options?: RenderOptions, initialState?: StateTree) {
-  return basicRender(component, {
+  const wrapper = mount(component, {
     ...options,
+    attachTo: container,
     global: {
       ...options?.global,
       plugins: [
@@ -20,7 +26,30 @@ export function render(component: any, options?: RenderOptions, initialState?: S
       ]
     }
   });
+
+  wrapper['parentElement'].replaceWith(...wrapper['parentElement'].childNodes);
+  mountedWrappers.add(wrapper);
+
+  return {
+    container,
+    baseElement,
+    debug: (el = baseElement, maxLength?: number, options?: PrettyDOMOptions) =>
+      Array.isArray(el)
+        ? el.forEach(e => console.log(prettyDOM(e, maxLength, options)))
+        : console.log(prettyDOM(el, maxLength, options)),
+    unmount: wrapper.unmount.bind(wrapper),
+    html: wrapper.html.bind(wrapper),
+    emitted: wrapper.emitted.bind(wrapper),
+    rerender: wrapper.setProps.bind(wrapper),
+    findComponent: wrapper.findComponent.bind(wrapper),
+    findAllComponents: wrapper.findAllComponents.bind(wrapper),
+    ...getQueriesForElement(baseElement)
+  };
 }
+
+export type RenderResult = ReturnType<typeof render>;
+
+
 
 export function createStore<Id extends string, S extends StateTree = StateTree, G = _GettersTree<S>, A = _ActionsTree>(
   useStore: StoreDefinition<Id, S, G, A>

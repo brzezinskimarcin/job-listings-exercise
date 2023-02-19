@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { type RenderResult, within, fireEvent } from '@testing-library/vue';
-import { render } from '@/../tests/utils';
+import { within, fireEvent } from '@testing-library/dom';
+import { type RenderResult, render } from '@/../tests/utils';
 import SearchBar from '@/components/SearchBar.vue';
 
 describe('@/components/SearchBar.vue', () => {
@@ -25,15 +25,15 @@ describe('@/components/SearchBar.vue', () => {
     expect(findTag('Senior')).toBeVisible();
   });
 
-  it('emits "close" event when clicking on a chip close icon', async () => {
+  it('emits "close" event when clicking on a chip close icon', () => {
     createComponent(['Frontend', 'Senior']);
-    await fireEvent.click(findCloseButton('Frontend'));
+    fireEvent.click(findCloseButton('Frontend'));
     expect(wrapper).toHaveEmitted('close', 'Frontend');
   });
 
-  it('emits "clear" event when clicking on "Clear" button', async () => {
+  it('emits "clear" event when clicking on "Clear" button', () => {
     createComponent(['Frontend', 'Senior']);
-    await fireEvent.click(findClearButton());
+    fireEvent.click(findClearButton());
     expect(wrapper).toHaveEmitted('clear');
   });
 });

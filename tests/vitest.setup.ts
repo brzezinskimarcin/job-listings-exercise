@@ -1,6 +1,7 @@
 import matchers, { type TestingLibraryMatchers  } from '@testing-library/jest-dom/matchers';
-import { cleanup, type RenderResult } from '@testing-library/vue';
+import type { RenderResult } from '@/../tests/utils';
 import { afterEach, expect } from 'vitest';
+import { cleanup } from './cleanup';
 
 afterEach(cleanup);
 expect.extend(matchers);
