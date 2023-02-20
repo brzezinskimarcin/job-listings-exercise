@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { type StateTree, type RenderResult, render } from '@/../tests/utils';
 import { useJobsStore } from '@/stores/jobs';
 import JobsList from '@/views/JobsList.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import SummaryCard from '@/components/SummaryCard.vue';
+import { type RenderResult, type StateTree, render } from '@/../tests/utils';
 import allJobs from '@/../tests/__mocks/jobs.json';
 
 describe('@/views/JobsList.vue', () => {
@@ -11,8 +11,8 @@ describe('@/views/JobsList.vue', () => {
   const createComponent = (jobsStore: StateTree) => {
     wrapper = render(JobsList, {
       global: {
-        stubs: ['SearchBar', 'SummaryCard']
-      }
+        stubs: ['SearchBar', 'SummaryCard'],
+      },
     }, { jobsStore });
   };
   const findLoadingText = () => wrapper.getByText('Loading jobs...');

@@ -3,18 +3,16 @@ defineProps<{
   accent: boolean;
   thumbnailUrl: string;
   caption: string;
-  badges: {
+  badges: Array<{
     color: string;
     label: string;
-  }[];
+  }>;
   title: string;
   subtitles: string[];
   tags: string[];
 }>();
 
-const emit = defineEmits<{
-  (event: 'click:tag', tag: string): void;
-}>();
+const emit = defineEmits<(event: 'click:tag', tag: string) => void>();
 </script>
 
 <template>

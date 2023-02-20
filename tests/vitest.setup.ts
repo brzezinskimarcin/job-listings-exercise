@@ -1,7 +1,7 @@
-import matchers, { type TestingLibraryMatchers  } from '@testing-library/jest-dom/matchers';
-import type { RenderResult } from '@/../tests/utils';
+import matchers, { type TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
 import { afterEach, expect } from 'vitest';
 import { cleanup } from './cleanup';
+import type { RenderResult } from '@/../tests/utils';
 
 afterEach(cleanup);
 expect.extend(matchers);
@@ -14,36 +14,36 @@ expect.extend({
       return {
         pass: emitted
           .some((event: unknown[]) =>
-            payload.length === event.length && payload.every((payload, i) => equals(event[i], payload))
+            payload.length === event.length && payload.every((payload, i) => equals(event[i], payload)),
           ),
-        message: () => `The "${eventName}" event was${isNot ? '' : ' not'} emitted with the payload: [${payload}]${isNot ? `, while it shouldn't.` : `. Received: [${emitted}].`}`
+        message: () => `The "${eventName}" event was${isNot ? '' : ' not'} emitted with the payload: [${payload}]${isNot ? ', while it shouldn\'t.' : `. Received: [${emitted}].`}`,
       };
     } else {
       return {
         pass: emitted.length > 0,
-        message: () => `The "${eventName}" event was${isNot ? '' : ' not'} emitted${isNot ? `, while it shouldn't.`: '.'}`
-      }
+        message: () => `The "${eventName}" event was${isNot ? '' : ' not'} emitted${isNot ? ', while it shouldn\'t.' : '.'}`,
+      };
     }
-  }
+  },
 });
 
 class ResizeObserver {
-  callback?: ResizeObserverCallback
+  callback?: ResizeObserverCallback;
 
-  constructor (callback: ResizeObserverCallback) {
-    this.callback = callback
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback;
   }
 
-  observe () {
-    this.callback?.([], this)
+  observe() {
+    this.callback?.([], this);
   }
 
-  unobserve () {
-    this.callback = undefined
+  unobserve() {
+    this.callback = undefined;
   }
 
-  disconnect () {
-    this.callback = undefined
+  disconnect() {
+    this.callback = undefined;
   }
 }
 

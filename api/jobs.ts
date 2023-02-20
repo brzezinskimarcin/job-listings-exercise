@@ -1,4 +1,4 @@
-import { defineEventHandler } from 'h3';
 import { promises as fs } from 'fs';
+import { defineEventHandler } from 'h3';
 
-export default defineEventHandler(async () => await fs.readFile('./api/data.json'));
+export default defineEventHandler(() => fs.readFile('./api/data.json'));

@@ -13,7 +13,12 @@ fetchData();
 
 <template>
   <header>
-    <v-img :min-height="120" cover src="/bg-header.svg" class="bg-primary w-100" />
+    <v-img
+      :min-height="120"
+      cover
+      src="/bg-header.svg"
+      class="bg-primary w-100"
+    />
     <SearchBar
       :tags="filters"
       class="mx-8 mt-n10"
@@ -29,8 +34,10 @@ fetchData();
         :width="4"
         color="primary"
         indeterminate
-      ></v-progress-circular>
-      <div class="mt-4 text-h6">Loading jobs...</div>
+      />
+      <div class="mt-4 text-h6">
+        Loading jobs...
+      </div>
     </div>
     <template v-else>
       <SummaryCard
@@ -41,7 +48,7 @@ fetchData();
         :caption="job.company"
         :badges="[
           job.new ? [{ color: 'primary', label: 'NEW!' }] : [],
-          job.featured ? [{ color: 'secondary', label: 'FEATURED' }] : []
+          job.featured ? [{ color: 'secondary', label: 'FEATURED' }] : [],
         ].flat()"
         :title="job.position"
         :subtitles="job.details"

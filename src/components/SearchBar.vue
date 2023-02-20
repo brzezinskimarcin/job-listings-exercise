@@ -17,7 +17,8 @@ const emit = defineEmits<{
   >
     <div class="flex-grow-1 pr-2">
       <v-chip
-        v-for="tag in tags" :key="tag"
+        v-for="tag in tags"
+        :key="tag"
         color="primary"
         class="font-weight-bold ma-2"
         label
@@ -27,6 +28,8 @@ const emit = defineEmits<{
         {{ tag }}
       </v-chip>
     </div>
-    <button class="font-weight-bold text-primary px-2" @click="emit('clear')">Clear</button>
+    <button type="button" class="font-weight-bold text-primary px-2" @click="emit('clear')">
+      Clear
+    </button>
   </v-card>
 </template>

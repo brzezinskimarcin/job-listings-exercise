@@ -28,7 +28,7 @@ describe('@/composables/fetch.vue', () => {
 
   it('maps data after successful the fetch if mapResponse option is passed', async () => {
     mockFetch(new Response(JSON.stringify({ hello: 'world' })));
-    const { execute, data } = useFetch({ url: 'test', mapResponse: () => ({ mapped: 'world' })});
+    const { execute, data } = useFetch({ url: 'test', mapResponse: () => ({ mapped: 'world' }) });
     expect(data.value).toBeUndefined();
     await execute();
     expect(data.value).toEqual({ mapped: 'world' });

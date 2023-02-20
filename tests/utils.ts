@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
-import type { StoreDefinition, StateTree, _GettersTree, _ActionsTree } from 'pinia';
-import { setActivePinia, createPinia } from 'pinia';
+import type { StateTree, StoreDefinition, _ActionsTree, _GettersTree } from 'pinia';
+import { createPinia, setActivePinia } from 'pinia';
 import { createTestingPinia } from '@pinia/testing';
 import { type PrettyDOMOptions, getQueriesForElement, prettyDOM } from '@testing-library/dom';
 import { type MountingOptions, mount } from '@vue/test-utils';
@@ -21,47 +21,48 @@ export function render(component: any, options?: MountingOptions<any>, initialSt
         vuetify,
         createTestingPinia({
           createSpy: vi.fn,
-          initialState
-        })
-      ]
-    }
+          initialState,
+        }),
+      ],
+    },
   });
 
-  wrapper['parentElement'].replaceWith(...wrapper['parentElement'].childNodes);
+  const parentElement = 'parentElement';
+  wrapper[parentElement].replaceWith(...wrapper[parentElement].childNodes);
   mountedWrappers.add(wrapper);
 
   return {
     container,
     baseElement,
+    /* eslint-disable no-console */
     debug: (el = baseElement, maxLength?: number, options?: PrettyDOMOptions) =>
       Array.isArray(el)
         ? el.forEach(e => console.log(prettyDOM(e, maxLength, options)))
         : console.log(prettyDOM(el, maxLength, options)),
+    /* eslint-enable */
     unmount: wrapper.unmount.bind(wrapper),
     html: wrapper.html.bind(wrapper),
     emitted: wrapper.emitted.bind(wrapper),
     rerender: wrapper.setProps.bind(wrapper),
     findComponent: wrapper.findComponent.bind(wrapper),
     findAllComponents: wrapper.findAllComponents.bind(wrapper),
-    ...getQueriesForElement(baseElement)
+    ...getQueriesForElement(baseElement),
   };
 }
 
 export type RenderResult = ReturnType<typeof render>;
 
-
-
 export function createStore<Id extends string, S extends StateTree = StateTree, G = _GettersTree<S>, A = _ActionsTree>(
-  useStore: StoreDefinition<Id, S, G, A>
+  useStore: StoreDefinition<Id, S, G, A>,
 ) {
-  return function(initialState: Partial<S> = {}) {
+  return function (initialState: Partial<S> = {}) {
     setActivePinia(createPinia());
     const store = useStore();
     for (const key in initialState) {
       store[key] = initialState[key]!;
     }
     return store;
-  }
+  };
 }
 
 export type { StateTree } from 'pinia';

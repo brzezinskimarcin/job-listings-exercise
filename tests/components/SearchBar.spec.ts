@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { within, fireEvent } from '@testing-library/dom';
-import { type RenderResult, render } from '@/../tests/utils';
+import { fireEvent, within } from '@testing-library/dom';
 import SearchBar from '@/components/SearchBar.vue';
+import { type RenderResult, render } from '@/../tests/utils';
 
 describe('@/components/SearchBar.vue', () => {
   let wrapper: RenderResult;
   const createComponent = (tags: string[]) => {
     wrapper = render(SearchBar, {
-      props: { tags }
+      props: { tags },
     });
   };
   const findTag = (tag: string) => wrapper.getByText(tag);
