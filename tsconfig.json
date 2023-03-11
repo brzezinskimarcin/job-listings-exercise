@@ -20,6 +20,9 @@
       "@/*": ["./src/*"]
     }
   },
+  "vueCompilerOptions": {
+    "plugins": ["@volar/vue-language-plugin-pug"]
+  },
   "include": [
     "*.ts",
     "src/**/*.ts",

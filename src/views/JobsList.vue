@@ -9,53 +9,47 @@ const { loading, jobs, filters } = storeToRefs(jobsStore);
 const { fetchData, addTag, removeTag, removeAll } = jobsStore;
 
 fetchData();
+
+function getBadges(newJob: boolean, featuredJob: boolean) {
+  return [
+    newJob ? [{ color: 'primary', label: 'NEW!' }] : [],
+    featuredJob ? [{ color: 'secondary', label: 'FEATURED' }] : [],
+  ].flat();
+}
 </script>
 
-<template>
-  <header>
-    <v-img
-      :min-height="120"
-      cover
-      src="/bg-header.svg"
-      class="bg-primary w-100"
-    />
-    <SearchBar
-      :tags="filters"
-      class="mx-8 mt-n10"
-      @close="removeTag"
-      @clear="removeAll"
-    />
-  </header>
-
-  <main class="px-8 pt-0 pt-sm-16">
-    <div v-if="loading" class="text-center">
-      <v-progress-circular
-        :size="64"
-        :width="4"
-        color="primary"
-        indeterminate
-      />
-      <div class="mt-4 text-h6">
-        Loading jobs...
-      </div>
-    </div>
-    <template v-else>
-      <SummaryCard
-        v-for="job in jobs"
-        :key="job.id"
-        :accent="job.new"
-        :thumbnail-url="job.logo"
-        :caption="job.company"
-        :badges="[
-          job.new ? [{ color: 'primary', label: 'NEW!' }] : [],
-          job.featured ? [{ color: 'secondary', label: 'FEATURED' }] : [],
-        ].flat()"
-        :title="job.position"
-        :subtitles="job.details"
-        :tags="job.tags"
-        class="mb-8"
-        @click:tag="addTag"
-      />
-    </template>
-  </main>
+<template lang="pug">
+header
+  v-img.bg-primary.w-100(
+    :min-height="120",
+    src="/bg-header.svg",
+    cover
+  )
+  search-bar.mx-8.mt-n10(
+    :tags="filters",
+    @close="removeTag",
+    @clear="removeAll"
+  )
+main.px-8.pt-0.pt-sm-16
+  .text-center(v-if="loading")
+    v-progress-circular(
+      :size="64",
+      :width="4",
+      color="primary",
+      indeterminate
+    )
+    .mt-4.text-h6 Loading jobs...
+  template(v-else)
+    summary-card.mb-8(
+      v-for="job in jobs",
+      :key="job.id",
+      :accent="job.new",
+      :thumbnail-url="job.logo",
+      :caption="job.company",
+      :badges="getBadges(job.new, job.featured)",
+      :title="job.position",
+      :subtitles="job.details",
+      :tags="job.tags",
+      @click:tag="addTag"
+    )
 </template>

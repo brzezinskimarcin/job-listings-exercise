@@ -9,27 +9,22 @@ const emit = defineEmits<{
 }>();
 </script>
 
-<template>
-  <v-card
-    v-if="tags.length"
-    elevation="3"
-    class="py-4 px-5 d-flex align-center"
-  >
-    <div class="flex-grow-1 pr-2">
-      <v-chip
-        v-for="tag in tags"
-        :key="tag"
-        color="primary"
-        class="font-weight-bold ma-2"
-        label
-        closable
-        @click:close="emit('close', tag)"
-      >
-        {{ tag }}
-      </v-chip>
-    </div>
-    <button type="button" class="font-weight-bold text-primary px-2" @click="emit('clear')">
-      Clear
-    </button>
-  </v-card>
+<template lang="pug">
+v-card.py-4.px-5.d-flex.align-center(
+  v-if="tags.length",
+  elevation="3"
+)
+  .flex-grow-1.pr-2
+    v-chip.font-weight-bold.ma-2(
+      v-for="tag in tags",
+      :key="tag",
+      color="primary",
+      label,
+      closable,
+      @click:close="emit('close', tag)"
+    ) {{ tag }}
+  button.font-weight-bold.text-primary.px-2(
+    type="button",
+    @click="emit('clear')"
+  ) Clear
 </template>

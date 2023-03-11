@@ -2,8 +2,7 @@
 import JobsList from '@/views/JobsList.vue';
 </script>
 
-<template>
-  <v-app>
-    <JobsList />
-  </v-app>
+<template lang="pug">
+v-app
+  jobs-list
 </template>
